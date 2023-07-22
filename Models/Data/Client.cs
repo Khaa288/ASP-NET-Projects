@@ -20,16 +20,15 @@ public class Client {
     [StringLength(100)]
     public String address {set; get;}
 
-    [Timestamp]
     [Required]
-    public DateTime createAt {set; get;}
+    public String createAt {set; get;}
 
-    public Client(){}
+    // public Client(){}
     public Client(String name, String email, String phone, String address) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.createAt = DateTime.Now;
+        this.createAt = $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second} ";
     }
 }
