@@ -18645,6 +18645,11 @@
   "RootNamespace": "Practice_ASP_NET",
   "Documents": [
     {
+      "FilePath": "k:\\CSharp_Learning\\Application\\Basic CRUD\\Practice-ASP-NET\\Views\\Home\\DeleteDB.cshtml",
+      "TargetPath": "Views\\Home\\DeleteDB.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "k:\\CSharp_Learning\\Application\\Basic CRUD\\Practice-ASP-NET\\Views\\Shared\\_Layout.cshtml",
       "TargetPath": "Views\\Shared\\_Layout.cshtml",
       "FileKind": "mvc"
