@@ -1,8 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var create = TempData["isCreated"] as String;
+    var delete = TempData["isDeleted"] as String;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="bg-dark text-white">
+        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CreateDB">Create Database</a>
+        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="DeleteDB">Delete Database</a>
+    </div>
+    <h1>@create</h1>
+    <h1>@delete</h1>
 </div>
