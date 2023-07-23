@@ -1,6 +1,6 @@
+@inject Practice_ASP_NET.Services.DbContextServices clients;
+
 @{
-    var clients = ViewBag.clients as List<Client>;
-    var clientAttr = clients[0];
     var isAdded = TempData["isAdded"] as String;
 }
 
@@ -17,7 +17,7 @@
     </thead>
     <tbody>
         @{
-            foreach(var value in @clients) {
+            foreach(var value in @clients.ClientList()) {
                 <tr>
                     <th scope="row">
                         @value.id
@@ -28,8 +28,8 @@
                     <td>@value.address</td>
                     <td>@value.createAt</td>
                     <td>
-                        <a class="btn btn-success btn-sm" asp-controller="Client" asp-action="Deleted">Edit</a>
-                        <a class="btn btn-danger btn-sm" asp-controller="Client" asp-action="">Delete</a>
+                        <a class="btn btn-success btn-sm" asp-controller="Client" asp-action="EditClient" asp-route-id="@value.id">Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-controller="Client" asp-action="DeleteClient" asp-route-id="@value.id">Delete</a>
                     </td>
                 </tr>
             }
