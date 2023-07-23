@@ -1,3 +1,5 @@
+namespace Practice_ASP_NET.Services;
+
 public class DbContextServices {
     private AppDbContext _dbContext;
 
@@ -17,6 +19,10 @@ public class DbContextServices {
         _dbContext.SaveChanges();
     }
 
+    public List<Client> ClientList() {
+        return _dbContext.clients.ToList();
+    }
+
     public bool CreateDb() {
         var isCreated = this._dbContext.Database.EnsureCreated();
         if (isCreated) {
@@ -32,6 +38,10 @@ public class DbContextServices {
         return isDeleted;
     }
 
+    public Client FindAClient(int id) {
+        return _dbContext.clients.Where(value => value.id == id).FirstOrDefault();
+    }
+
     public List<Client> ShowAllClients() {
         return _dbContext.clients.ToList();
     }
@@ -44,9 +54,19 @@ public class DbContextServices {
         return true ? isAdded > 0 : false;
     }
 
-    public bool DeleteClient(Client delClient){
-        _dbContext.clients.Remove(delClient);
+    public bool DeleteClient(int Id){
+        _dbContext.clients.Remove(_dbContext.clients.Where(value => value.id == Id).FirstOrDefault());
         var isDeleted = _dbContext.SaveChanges();
         return true ? isDeleted > 0 : false;
+    }
+
+    public bool EditClient(int Id, String name, String email, String phone, String address){
+        var editClient = FindAClient(Id);
+        editClient.name = name;
+        editClient.email = email;
+        editClient.phone = phone;
+        editClient.address = address;
+        var isUpdated = _dbContext.SaveChanges();
+        return true ? isUpdated > 0 : false;
     }
 }
