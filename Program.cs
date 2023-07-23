@@ -1,3 +1,5 @@
+using Practice_ASP_NET.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
