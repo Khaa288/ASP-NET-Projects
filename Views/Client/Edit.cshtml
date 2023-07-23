@@ -1,0 +1,40 @@
+@model Client
+@{
+    var alert = TempData["isUpdated"] as String;
+}
+
+<div >
+    <div class="bg-light">
+        <h1>Update new client</h1>
+    </div>
+    <div>
+        <form asp-controller="Client" asp-action="Edit_Confirmed" asp-route-id="@Model.id">
+            <div class="alert alert-success" role="alert">
+                @alert
+            </div>
+            <div class="row mb-2">
+                <label class="mt-1">Name:</label>
+                <input value = "@Model.name" type="text" name="name" class="form-control m-2" placeholder="Enter name">
+            </div>
+            <div class="row mb-2">
+                <label class="mt-1">Email:</label>
+                <input value = "@Model.email" type="text" name="email" class="form-control m-2" placeholder="Enter email">
+            </div>
+            <div class="row mb-2">
+                <label class="mt-1">Phone:</label>
+                <input value = "@Model.phone" type="text" name="phone" class="form-control m-2" placeholder="Enter phone number">
+            </div>
+            <div class="row mb-2">
+                <label class="mt-1">Address:</label>
+                <input value = "@Model.address" type="text" name="address" class="form-control m-2" placeholder="Enter address">
+            </div>
+            <div class="d-flex justify-content-between">
+                <button asp-action="Index" class="btn btn-primary">Back</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+
