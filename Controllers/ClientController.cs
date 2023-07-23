@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Practice_ASP_NET.Services;
+
 namespace Practice_ASP_NET.Controllers;
 public class ClientController : Controller {
     private readonly ILogger<ClientController> _logger;
@@ -9,11 +11,24 @@ public class ClientController : Controller {
     }
 
     public IActionResult Index() {
-        ViewBag.clients = _contextServices.ShowAllClients();
-        return View();
+        var clients = _contextServices.ShowAllClients();
+        return View("Index", clients);
     }
 
-    [HttpPost]
+    public IActionResult EditClient(int Id) {
+        var client = _contextServices.FindAClient(Id);
+        return View("Edit", client);
+    }
+
+    public IActionResult Edit_Confirmed(int id, String name, String email, String phone, String address) {
+        if (_contextServices.EditClient(id, name, email, phone, address))
+            TempData["isUpdated"] = "1 client updated into database";
+        else 
+            TempData["isUpdated"] = "0 client updated into database";
+        var url = Url.Action("EditClient", "Client", new {id= id});
+        return Redirect(url);
+    }
+
     public IActionResult InsertClient(String name, String email, String phone, String address) {
         if (_contextServices.AddClient(name, phone, email, address))
             TempData["isAdded"] = "1 client inserted into database";
@@ -23,8 +38,8 @@ public class ClientController : Controller {
         return Redirect(url);
     }
 
-    public IActionResult DeleteClient(Client delClient){
-        if (_contextServices.DeleteClient(delClient))
+    public IActionResult DeleteClient(int Id){
+        if (_contextServices.DeleteClient(Id))
             TempData["isDeleted"] = "1 client deleted from database";
         else 
             TempData["isDeleted"] = "0 client deleted from database";
