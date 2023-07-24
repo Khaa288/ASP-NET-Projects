@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Note.API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddDbContext<NoteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NotesDbConnectionString")));
 
 var app = builder.Build();
 
@@ -21,5 +26,12 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.UseEndpoints(enpoints => {
+    enpoints.MapControllerRoute(
+        name: "default",
+        pattern: "api/[controller]/{id?}"
+    );
+});
 
 app.Run();
