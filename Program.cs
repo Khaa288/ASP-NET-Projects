@@ -8,6 +8,14 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<NoteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NotesDbConnectionString")));
 
+// // thêm service để 2 host giao tiếp được với nhau (FE với BE)
+// // nếu ko có thì FE k gửi API cho BE được
+builder.Services.AddCors(options => options.AddDefaultPolicy(builder => {
+    builder.WithOrigins("http://172.16.2.108:6433/", "http://localhost:5078/")
+           .AllowAnyOrigin()
+           .AllowAnyHeader().AllowAnyMethod();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,6 +27,9 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+
 app.UseStaticFiles();
 
 app.UseRouting();
