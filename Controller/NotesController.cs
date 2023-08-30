@@ -52,7 +52,9 @@ public class NotesController : Controller {
         if (note == null)
             return NotFound(new { message= "Don't have any note like this!!!"});
 
-        note = updateNote;
+        note.Title = updateNote.Title;
+        note.Description = updateNote.Description;
+        note.IsVisible = updateNote.IsVisible;
         await _dbcontext.SaveChangesAsync();
 
         return Ok(new { status = "Update success", updateNote = note});
