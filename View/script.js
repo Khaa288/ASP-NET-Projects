@@ -4,7 +4,7 @@ const descriptionInput = document.querySelector("#description")
 const notesContainer = document.querySelector("#notes_container")
 const deleteButton = document.querySelector("#btnDelete")
 
-function resetForm() {
+async function resetForm() {
     titleInput.value = '';
     descriptionInput.value = '';
     deleteButton.classList.add("hidden");
@@ -12,10 +12,12 @@ function resetForm() {
 }
 
 // gọi API xem all notes
-function getAllNotes() {
-    fetch('http://localhost:5078/api/notes')
+async function getAllNotes() {
+    console.log('tao duoc goi ne')
+    await fetch('http://localhost:5078/api/notes')
         .then(data => data.json())
-        .then(response => displayNotes(response));
+        .then(response => displayNotes(response))
+        .catch(error => console.log(error));
 }
 
 // gọi API xem note by id (sau khi click vào mỗi note trên UI)
@@ -27,21 +29,21 @@ function populateForm(note) {
     saveButton.setAttribute('data-id', note.id);
 }
 
-function getNoteById(id) {
-    fetch(`http://localhost:5078/api/notes/${id}`)
+async function getNoteById(id) {
+    await fetch(`http://localhost:5078/api/notes/${id}`)
         .then(data => data.json())
         .then(response => populateForm(response));
 }
 
 // gọi API thêm note
-function addNote(title, description) {
+async function addNote(title, description) {
     const body = {
         title: title,
         description: description,
         isVisible: true
     }
 
-    fetch('http://localhost:5078/api/notes', {
+    await fetch('http://localhost:5078/api/notes', {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
@@ -58,8 +60,8 @@ function addNote(title, description) {
 }
 
 // gọi API xóa note
-function deleteNote(id) {
-    fetch(`http://localhost:5078/api/notes/${id}`, {
+async function deleteNote(id) {
+    await fetch(`http://localhost:5078/api/notes/${id}`, {
             method: 'DELETE',
             headers: {
                 "content-type": "application/json"
@@ -75,7 +77,7 @@ function deleteNote(id) {
 }
 
 // gọi API cập nhật 1 note
-function updateNote(id, title, description) {
+async function updateNote(id, title, description) {
     const body = {
         id: id,
         title: title,
@@ -83,7 +85,7 @@ function updateNote(id, title, description) {
         isVisible: true
     }
 
-    fetch(`http://localhost:5078/api/notes/${id}`, {
+    await fetch(`http://localhost:5078/api/notes/${id}`, {
             method: 'PUT',
             body: JSON.stringify(body),
             headers: {
@@ -101,9 +103,9 @@ function updateNote(id, title, description) {
 }
 
 
-function displayNotes(notes) {
+async function displayNotes(notes) {
     let allNotes = '';
-    notes.forEach(note => {
+    await notes.forEach(note => {
         const noteElement = `
             <div class="note" data-id="${note.id}">
                 <h3>${note.title}</h3>
@@ -124,21 +126,22 @@ function displayNotes(notes) {
 
 
 // Event Listeners
-saveButton.addEventListener('click', function() {
-    const id = saveButton.dataset.id;
-    if (id != null) {
-        updateNote(saveButton.dataset.id, titleInput.value, descriptionInput.value);
-    } else {
-        addNote(titleInput.value, descriptionInput.value)
-    }
-})
+// saveButton.addEventListener('click', function() {
+//     const id = saveButton.dataset.id;
+//     if (id != null) {
+//         updateNote(saveButton.dataset.id, titleInput.value, descriptionInput.value);
+//     } else {
+//         addNote(titleInput.value, descriptionInput.value)
+//     }
+// })
 
-deleteButton.addEventListener('click', function() {
-    const id = deleteButton.dataset.id;
-    deleteNote(id);
-})
+// deleteButton.addEventListener('click', function() {
+//     const id = deleteButton.dataset.id;
+//     deleteNote(id);
+// })
 
 window.addEventListener('DOMContentLoaded', function() {
-    console.log("tao duoc thuc thi")
     getAllNotes();
 })
+
+export { getAllNotes, getNoteById, addNote, updateNote, deleteNote };
